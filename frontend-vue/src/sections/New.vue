@@ -10,8 +10,8 @@
           <v-form v-model="valid">
             <v-row>
               <v-text-field
-                v-model="schwarmvogelName"
-                :rules="schwarmvogelNameRules"
+                v-model="orgalendarName"
+                :rules="orgalendarNameRules"
                 :counter="10"
                 label="Gib deinem Orgalendar einen Namen"
                 required
@@ -48,8 +48,8 @@
     data () {
       return {
         valid: false,
-        schwarmvogelName: '',
-        schwarmvogelNameRules: [
+        orgalendarName: '',
+        orgalendarNameRules: [
           v => !!v || 'Dein Orgalendar braucht einen Namen!',
           v => v.length <= 10 || 'Der Name sollte nicht mehr als 10 Buchstaben haben!',
         ],
@@ -71,7 +71,7 @@
       },
       createCalendar () {
         var data = {
-          schwarmvogelName: this.schwarmvogelName,
+          orgalendarName: this.orgalendarName,
           username: this.name,
           email: this.email,
         }

@@ -1,4 +1,4 @@
-# Schwarmvogel - Organize Your Shifts
+# Orgalendar - Organize Your Shifts
 
 
 Mockups
