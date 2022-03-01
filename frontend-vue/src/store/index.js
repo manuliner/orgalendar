@@ -27,7 +27,7 @@ export default new Vuex.Store({
           Object.getPrototypeOf(state.cache) === Object.prototype)
       ) {
         // store object is empty. check localstorage
-        state.cache = JSON.parse(localStorage.getItem('schwarmvogelCache'));
+        state.cache = JSON.parse(localStorage.getItem('orgalendarCache'));
         if (state.cache === null) {
           state.cache = {};
         }
@@ -43,7 +43,7 @@ export default new Vuex.Store({
       ) {
         // store object is empty. check localstorage
 
-        state.user = JSON.parse(localStorage.getItem('schwarmvogelUser'));
+        state.user = JSON.parse(localStorage.getItem('orgalendarUser'));
         if (state.user === null) {
           state.user = {};
         }
@@ -58,7 +58,7 @@ export default new Vuex.Store({
           Object.getPrototypeOf(state.calendar) === Object.prototype)
       ) {
         // store object is empty. check localstorage
-        state.calendar = JSON.parse(localStorage.getItem('schwarmvogelCalendar'));
+        state.calendar = JSON.parse(localStorage.getItem('orgalendarCalendar'));
         if (state.calendar === null) {
           state.calendar = {};
         }
@@ -71,21 +71,21 @@ export default new Vuex.Store({
       state.config = data;
     },
     SET_USER: (state, data) => {
-      localStorage.setItem('schwarmvogelUser', JSON.stringify(data));
+      localStorage.setItem('orgalendarUser', JSON.stringify(data));
       state.user = data;
     },
     SET_CALENDAR: (state, data) => {
-      localStorage.setItem('schwarmvogelCalendar', JSON.stringify(data));
+      localStorage.setItem('orgalendarCalendar', JSON.stringify(data));
       state.calendar = data;
     },
     ADD_TO_CACHE: (state, data) => {
-      let cache = JSON.parse(localStorage.getItem('schwarmvogelCache'));
+      let cache = JSON.parse(localStorage.getItem('orgalendarCache'));
       if (cache === null) {
         // cache empty . create new
         cache = {};
       }
       cache[data.id] = data;
-      localStorage.setItem('schwarmvogelCache', JSON.stringify(cache));
+      localStorage.setItem('orgalendarCache', JSON.stringify(cache));
       state.cache = cache;
     }
   },
