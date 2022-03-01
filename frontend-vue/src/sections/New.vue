@@ -10,8 +10,8 @@
           <v-form v-model="valid">
             <v-row>
               <v-text-field
-                v-model="orgalendarName"
-                :rules="orgalendarNameRules"
+                v-model="calendarName"
+                :rules="calendarNameRules"
                 :counter="10"
                 label="Gib deinem Orgalendar einen Namen"
                 required
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import AddUser from '../components/custom/AddUser.vue'
+  import AddUser from '../components/user/AddUser.vue'
   import CalendarService from '../services/calendar.service'
 
   export default {
@@ -48,8 +48,8 @@
     data () {
       return {
         valid: false,
-        orgalendarName: '',
-        orgalendarNameRules: [
+        calendarName: '',
+        calendarNameRules: [
           v => !!v || 'Dein Orgalendar braucht einen Namen!',
           v => v.length <= 10 || 'Der Name sollte nicht mehr als 10 Buchstaben haben!',
         ],
@@ -64,15 +64,15 @@
       })
     },
     methods: {
-      onValid (valid, email, name) {
+      onValid (valid, email, userName) {
         this.valid = valid
-        this.name = name
+        this.userName = userName
         this.email = email
       },
       createCalendar () {
         var data = {
-          orgalendarName: this.orgalendarName,
-          username: this.name,
+          calendarName: this.calendarName,
+          userName: this.userName,
           email: this.email,
         }
         CalendarService.create(data)

@@ -37,9 +37,9 @@
 </template>
 
 <script>
-  import AddUserDialog from '../components/custom/AddUserDialog.vue'
-  import UserService from '../services/user.service'
-  import CalendarService from '../services/calendar.service'
+  import AddUserDialog from '../custom/AddUserDialog.vue'
+  import UserService from '../../services/user.service'
+  import CalendarService from '../../services/calendar.service'
   export default {
     name: 'UserChooser',
 

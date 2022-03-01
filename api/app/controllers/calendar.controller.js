@@ -14,12 +14,12 @@ exports.create = (req, res) => {
   // Save Calendar in the database
   let data = {
     slug: uuid.v4(),
-    name: req.body.orgalendarName
+    name: req.body.calendarName
   };
   Calendar.create(data)
     .then(myCalendar => {
       User.create({
-        name: req.body.username,
+        name: req.body.userName,
         email: req.body.email
       })
         .then(myUser => {

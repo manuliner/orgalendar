@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import ChooseOrgalendar from '../components/custom/ChooseOrgalendar.vue'
+  import ChooseOrgalendar from '../components/orgalendar/ChooseOrgalendar.vue'
   export default {
     name: 'SectionHero',
     components: { ChooseOrgalendar },

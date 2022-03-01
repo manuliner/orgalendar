@@ -2,8 +2,8 @@
   <v-form v-model="valid">
     <v-row>
       <v-text-field
-        v-model="name"
-        :rules="nameRules"
+        v-model="userName"
+        :rules="userNameRules"
         :counter="10"
         label="Name"
         required
@@ -35,12 +35,12 @@
     data () {
       return {
         valid: false,
-        name: '',
-        nameAvailable: true,
-        nameRules: [
+        userName: '',
+        userNameAvailable: true,
+        userNameRules: [
           v => !!v || 'Du brauchst einen Namen!',
           v => v.length <= 10 || 'Dein Name sollte nicht mehr als 10 Buchstaben haben!',
-          v => this.nameAvailable || 'Dieser Name ist bereits vergeben! Wähle doch bitte einen anderen.',
+          v => this.userNameAvailable || 'Dieser Name ist bereits vergeben! Wähle doch bitte einen anderen.',
         ],
         email: '',
         emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
@@ -48,13 +48,13 @@
     },
     watch: {
       valid: function (val) {
-        this.$emit('OnValid', val, this.email, this.name)
+        this.$emit('OnValid', val, this.email, this.userNameAvailable)
       },
     },
     methods: {
-      validUserName (name) {
+      validUserName (userName) {
         const foundName = this.takenNames.filter(function (entry) {
-          return entry === name
+          return entry === userName
         })
         this.nameAvailable = foundName.length === 0
       },
