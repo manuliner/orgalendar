@@ -1,152 +1,142 @@
 <template>
-  <section id="hero">
-    <v-sheet class="px-10">
-      <v-container>
-        <v-row class="fill-height">
-          <v-col>
-            <v-sheet height="64">
-              <v-toolbar flat>
+  <v-container>
+    <v-row class="fill-height">
+      <v-col>
+        <v-sheet height="64">
+          <v-toolbar flat>
+            <v-btn
+              outlined
+              class="mr-4"
+              @click="setToday"
+            >
+              Today
+            </v-btn>
+            <v-btn
+              fab
+              text
+              small
+              @click="prev"
+            >
+              <v-icon small>
+                mdi-chevron-left
+              </v-icon>
+            </v-btn>
+            <v-btn
+              fab
+              text
+              small
+              @click="next"
+            >
+              <v-icon small>
+                mdi-chevron-right
+              </v-icon>
+            </v-btn>
+            <v-toolbar-title v-if="$refs.calendar">
+              {{ $refs.calendar.title }}
+            </v-toolbar-title>
+            <v-spacer />
+            <v-menu
+              bottom
+              right
+            >
+              <template #activator="{ on, attrs }">
                 <v-btn
                   outlined
-                  class="mr-4"
-                  @click="setToday"
+                  v-bind="attrs"
+                  v-on="on"
                 >
-                  Today
-                </v-btn>
-                <v-btn
-                  fab
-                  text
-                  small
-                  @click="prev"
-                >
-                  <v-icon small>
-                    mdi-chevron-left
+                  <span>{{ typeToLabel[type] }}</span>
+                  <v-icon right>
+                    mdi-menu-down
                   </v-icon>
                 </v-btn>
-                <v-btn
-                  fab
-                  text
-                  small
-                  @click="next"
-                >
-                  <v-icon small>
-                    mdi-chevron-right
-                  </v-icon>
-                </v-btn>
-                <v-toolbar-title v-if="$refs.calendar">
-                  {{ $refs.calendar.title }}
-                </v-toolbar-title>
-                <v-spacer />
-                <v-menu
-                  bottom
-                  right
-                >
-                  <template #activator="{ on, attrs }">
-                    <v-btn
-                      outlined
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      <span>{{ typeToLabel[type] }}</span>
-                      <v-icon right>
-                        mdi-menu-down
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-list>
-                    <v-list-item @click="type = 'day'">
-                      <v-list-item-title>Day</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = 'week'">
-                      <v-list-item-title>Week</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = 'month'">
-                      <v-list-item-title>Month</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = '4day'">
-                      <v-list-item-title>4 days</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </v-toolbar>
-            </v-sheet>
-            <v-sheet height="600">
-              <v-calendar
-                ref="calendar"
-                v-model="calendarDate"
-                :events="appointments"
-                :event-color="getAppointmentDay"
-                :event-ripple="true"
-                :type="type"
-                :interval-format="intervalFormat"
-                @change="getAppointmentsInRange"
-                @click:more="jumpToDayView"
-                @click:date="jumpToDayView"
-                @mouseenter:event="isAppointmentHovered = true"
-                @mouseleave:event="isAppointmentHovered = false"
-                @mousedown:event="onAppointmentMouseDown"
-                @mouseup:event="onAppointmentMouseUp"
-                @mousedown:time="onTimeMouseDown"
-                @mousemove:time="onTimeMouseMove"
-                @mouseup:time="onTimeMouseUp"
-                @mouseleave.native="onMouseLeave"
-              >
-                <template #event="{ event, timed, eventSummary }">
-                  <div
-                    class="v-event-draggable"
-                    v-html="eventSummary()"
-                  />
-                  <div
-                    v-if="timed"
-                    class="v-event-drag-bottom"
-                    @mousedown.stop="onAppointmentBottomMouseDown(event)"
-                  />
-                </template>
-              </v-calendar>
+              </template>
+              <v-list>
+                <v-list-item @click="type = 'day'">
+                  <v-list-item-title>Day</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="type = 'week'">
+                  <v-list-item-title>Week</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="type = 'month'">
+                  <v-list-item-title>Month</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="type = '4day'">
+                  <v-list-item-title>4 days</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-toolbar>
+        </v-sheet>
+        <v-sheet height="600">
+          <v-calendar
+            ref="calendar"
+            v-model="calendarDate"
+            :events="appointments"
+            :event-color="getAppointmentDay"
+            :event-ripple="true"
+            :type="type"
+            :interval-format="intervalFormat"
+            @change="getAppointmentsInRange"
+            @click:more="jumpToDayView"
+            @click:date="jumpToDayView"
+            @mouseenter:event="isAppointmentHovered = true"
+            @mouseleave:event="isAppointmentHovered = false"
+            @mousedown:event="onAppointmentMouseDown"
+            @mouseup:event="onAppointmentMouseUp"
+            @mousedown:time="onTimeMouseDown"
+            @mousemove:time="onTimeMouseMove"
+            @mouseup:time="onTimeMouseUp"
+            @mouseleave.native="onMouseLeave"
+          >
+            <template #event="{ event, timed, eventSummary }">
+              <div
+                class="v-event-draggable"
+                v-html="eventSummary()"
+              />
+              <div
+                v-if="timed"
+                class="v-event-drag-bottom"
+                @mousedown.stop="onAppointmentBottomMouseDown(event)"
+              />
+            </template>
+          </v-calendar>
 
-              <edit-appointment-dialog
-                :x="appointmentX"
-                :y="appointmentY"
-                :open-dialog="isEditAppointmentDialogOpen"
-                :event-data="selectedAppointment"
-                :avail-persons="users"
-                @OnDelete="onEditAppointmentDelete"
-                @OnCloseSuccess="onEditAppointmentCloseSuccess"
-                @OnCloseFail="onEditAppointmentCloseFail"
-              />
-              <modified-appointment-dialog
-                :open-dialog="isModifiedAppointmentDialogOpen"
-                :x="appointmentX"
-                :y="appointmentY"
-                @OnCloseSuccess="onModifiedAppointmentDialogCloseSuccess"
-                @OnCloseFail="onModifiedAppointmentDialogCloseFail"
-              />
-            </v-sheet>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-sheet>
-  </section>
+          <edit-appointment-dialog
+            :x="appointmentX"
+            :y="appointmentY"
+            :open-dialog="isEditAppointmentDialogOpen"
+            :event-data="selectedAppointment"
+            :avail-persons="users"
+            @OnDelete="onEditAppointmentDelete"
+            @OnCloseSuccess="onEditAppointmentCloseSuccess"
+            @OnCloseFail="onEditAppointmentCloseFail"
+          />
+          <modified-appointment-dialog
+            :open-dialog="isModifiedAppointmentDialogOpen"
+            :x="appointmentX"
+            :y="appointmentY"
+            @OnCloseSuccess="onModifiedAppointmentDialogCloseSuccess"
+            @OnCloseFail="onModifiedAppointmentDialogCloseFail"
+          />
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-  import CalendarService from '../services/calendar.service'
-  import UserService from '../services/user.service'
-  import AppointmentService from '../services/appointment.service'
 
   import moment from 'moment'
 
-  import AppointmentHelper from '../components/custom/AppointmentHelpers'
-  import EditAppointmentDialog from '../components/orgalendar/EditAppointmentDialog.vue'
-  import ModifiedAppointmentDialog from '../components/orgalendar/ModifiedAppointmentDialog.vue'
-  import Section from '../components/base/Section.vue'
+  import EditAppointmentDialog from '../components/custom/EditAppointmentDialog.vue'
+  import ModifiedAppointmentDialog from '../components/custom/ModifiedAppointmentDialog.vue'
 
   export default {
     name: 'Calendar',
     components: {
       EditAppointmentDialog,
       ModifiedAppointmentDialog,
-      Section,
     },
     data: () => ({
       isAppointmentHovered: false,
