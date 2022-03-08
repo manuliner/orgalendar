@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import AddUserDialog from '../../components/custom/AddUserDialog.vue'
+  import AddUserDialog from '../../components/user/AddUserDialog.vue'
   import UserService from '../../services/user.service'
   import CalendarService from '../../services/calendar.service'
 

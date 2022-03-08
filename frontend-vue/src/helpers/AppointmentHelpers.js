@@ -1,8 +1,8 @@
 const moment = require('moment')
 
 class Appointment {
-  constructor (calendarId, start, end) {
-    this.calendarId = calendarId
+  constructor (start, end) {
+    this.calendarId = 0
     this.id = Math.floor(Math.random() * Date.now())
     this.isVirtual = false
     this.parentId = -1
@@ -87,8 +87,8 @@ module.exports = {
     return results
   },
 
-  create (calendarId, start, end) {
-    return new Appointment(calendarId, start, end)
+  create (start, end) {
+    return new Appointment(start, end)
   },
 
   copy (from, to) {

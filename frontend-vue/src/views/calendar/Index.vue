@@ -12,7 +12,7 @@
 
     extends: View,
 
-    mixins: [LoadSections(['userChooser', 'calendar'])],
+    mixins: [LoadSections(['calendar'])],
 
     props: {
       id: {

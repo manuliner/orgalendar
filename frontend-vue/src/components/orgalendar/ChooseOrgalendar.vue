@@ -55,9 +55,9 @@
             name: 'ChooseUser',
             params: { slug: chosenOrgalendar.slug },
           })
-          this.$store.dispatch('setUser', {})
+          this.$store.dispatch('calendar/etUser', {})
         }
-        this.$store.dispatch('setCalendar', chosenOrgalendar)
+        this.$store.dispatch('calendar/setCalendar', chosenOrgalendar)
       },
     },
   }

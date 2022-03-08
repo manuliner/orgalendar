@@ -1,15 +1,13 @@
+import Vue from 'vue'
+
 export const calendar = {
   namespaced: true,
   state: {
-    config: {},
     user: {},
     calendar: {},
     cache: {},
   },
   getters: {
-    config (state) {
-      return state.config
-    },
     cache (state) {
       if (
         state.cache === null ||
@@ -58,9 +56,6 @@ export const calendar = {
     },
   },
   mutations: {
-    SET_CONFIG: (state, data) => {
-      state.config = data
-    },
     SET_USER: (state, data) => {
       localStorage.setItem('orgalendarUser', JSON.stringify(data))
       state.user = data
@@ -81,15 +76,13 @@ export const calendar = {
     },
   },
   actions: {
-    setConfig: ({ commit, state }, value) => {
-      commit('SET_CONFIG', value)
-      return state.config
-    },
     setUser: ({ commit, state }, value) => {
+      Vue.$log.debug(value)
       commit('SET_USER', value)
       return state.user
     },
     setCalendar: ({ commit, state }, value) => {
+      Vue.$log.debug(value)
       commit('SET_CALENDAR', value)
       commit('ADD_TO_CACHE', value)
       return state.calendar

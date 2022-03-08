@@ -5,11 +5,11 @@ import * as vueConfig from '../../vue.config'
 import store from '../store/index'
 class ConfigService {
   async loadConfig () {
+    Vue.$log.debug('load config from ' + `${vueConfig.publicPath}static/config.json`)
     return axios
       .get(`${vueConfig.publicPath}static/config.json`)
       .then(response => {
         store.dispatch('setConfig', response.data)
-        Vue.$log.debug(response.data)
       })
       .catch(e => {
         Vue.$log.error(e)
@@ -28,7 +28,7 @@ class ConfigService {
     if (this.get('apiUrl')) {
       return this.get('apiUrl')
     }
-    console.log('NO API URL IN CONFIG')
+    Vue.$log.error('NO API URL IN CONFIG')
 
     return 'http://'
   }
