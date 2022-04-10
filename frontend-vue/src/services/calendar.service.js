@@ -1,22 +1,21 @@
-import http from './http-common'
-import ConfigService from './config.service'
+import http from "./http-common";
 
 class CalendarService {
-  create (data) {
-    return http.post(`${ConfigService.getApiUrl()}/calendar/new`, data)
+  create(data) {
+    return http.post(`/calendar/new`, data);
   }
 
-  update (id, data) {
-    return http.put(`${ConfigService.getApiUrl()}/calendar/${id}`, data)
+  update(id, data) {
+    return http.put(`/calendar/${id}`, data);
   }
 
-  delete (id) {
-    return http.delete(`${ConfigService.getApiUrl()}/calendar/${id}`)
+  delete(id) {
+    return http.delete(`/calendar/${id}`);
   }
 
-  getCalendarBySlug (id) {
-    return http.get(`${ConfigService.getApiUrl()}/calendar/${id}`)
+  getCalendarBySlug(id) {
+    return http.get(`/calendar/${id}`);
   }
 }
 
-export default new CalendarService()
+export default new CalendarService();

@@ -8,42 +8,20 @@
     absolute
     offset-x
   >
-    <v-card
-      min-width="350px"
-      max-width="500px"
-      flat
-    >
+    <v-card min-width="350px" max-width="500px" flat>
       <v-card-title :color="workingData.color">
-        <v-text-field
-          v-model="workingData.name"
-          label="Title"
-        />
+        <v-text-field v-model="workingData.name" label="Title" />
         <v-spacer />
-        <v-btn
-          icon
-          @click="deleteAppointment"
-        >
-          <v-icon> mdi-trash-can</v-icon>
+        <v-btn icon @click="deleteAppointment">
+          <v-icon>mdi-trash-can</v-icon>
         </v-btn>
       </v-card-title>
       <v-card-text>
         <v-row />
         <v-row>
-          <v-radio-group
-            v-model="workingData.color"
-            label="Farbe"
-            row
-            column
-          >
-            <div
-              v-for="item in colors"
-              :key="item"
-            >
-              <v-radio
-                :change="onChange()"
-                :color="item"
-                :value="item"
-              />
+          <v-radio-group v-model="workingData.color" label="Farbe" row column>
+            <div v-for="item in colors" :key="item">
+              <v-radio :change="onChange()" :color="item" :value="item" />
             </div>
           </v-radio-group>
         </v-row>
@@ -180,10 +158,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-checkbox
-            v-model="fullDay"
-            label="ganztägig"
-          />
+          <v-checkbox v-model="fullDay" label="ganztägig" />
         </v-row>
         <v-row>
           <v-col cols="5">
@@ -215,184 +190,177 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn
-          text
-          @click="closeFail"
-        >
-          Schließen
-        </v-btn>
+        <v-btn text @click="closeFail">Schließen</v-btn>
         <v-spacer />
-        <v-btn @click="closeSuccess">
-          Ok
-        </v-btn>
+        <v-btn @click="closeSuccess">Ok</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
 </template>
 
 <script>
-  import moment from 'moment'
+import moment from 'moment'
 
-  export default {
-    name: 'AppointmentCard',
+export default {
+  name: 'AppointmentCard',
 
-    props: {
-      openDialog: { type: Boolean, default: false },
-      x: { type: Number, default: 0 },
-      y: { type: Number, default: 0 },
-      availPersons: {
-        type: Array,
-        default: function () {
-          return ['']
-        },
-      },
-
-      eventData: { type: Object },
-    },
-    data: () => ({
-      repeatations: ['Einmalig', 'Täglich', 'Wöchentlich', 'Monatlich'],
-      startTimeOpen: false,
-      startDateOpen: false,
-      endDateOpen: false,
-      endTimeOpen: false,
-      colors: [
-        'blue',
-        'indigo',
-        'deep-purple',
-        'cyan',
-        'green',
-        'orange',
-        'grey darken-1',
-      ],
-    }),
-    computed: {
-      maxForStarTime: {
-        get () {
-          if (this.sameDay()) {
-            return this.endTime
-          } else {
-            return '23:59'
-          }
-        },
-        set (value) {},
-      },
-      minForEndTime: {
-        get () {
-          if (this.sameDay()) {
-            return this.startTime
-          } else {
-            return '00:00'
-          }
-        },
-        set (value) {},
-      },
-      startTime: {
-        get () {
-          return moment(this.workingData.start).format('HH:mm')
-        },
-        set (value) {
-          this.workingData.start = this.setHHMM(value, this.workingData.start)
-        },
-      },
-      endTime: {
-        get () {
-          return moment(this.workingData.end).format('HH:mm')
-        },
-        set (value) {
-          this.workingData.end = this.setHHMM(value, this.workingData.end)
-        },
-      },
-      startDate: {
-        get () {
-          return moment(this.workingData.start).format('YYYY-MM-DD')
-        },
-        set (value) {
-          console.log(value)
-          const result = this.setYYYYMMDD(value, this.workingData.start)
-          console.log(result, moment(result).format('YYYY-MM-DD').toString())
-
-          this.workingData.start = this.setYYYYMMDD(value, this.workingData.start)
-        },
-      },
-      endDate: {
-        get () {
-          return moment(this.workingData.end).format('YYYY-MM-DD')
-        },
-        set (value) {
-          const result = this.setYYYYMMDD(value, this.workingData.end)
-
-          this.workingData.end = result
-        },
-      },
-      attachedPersons: {
-        get () {
-          if (this.workingData.attachedPersons) {
-            return this.workingData.attachedPersons
-              .split(';')
-              .filter(function (x) {
-                return x !== ''
-              })
-          }
-          return []
-        },
-        set (value) {
-          this.workingData.attachedPersons = value.join(';')
-        },
-      },
-      fullDay: {
-        get () {
-          return !this.workingData.timed
-        },
-        set (value) {
-          this.workingData.timed = !value
-        },
-      },
-
-      workingData: {
-        get () {
-          return this.eventData
-        },
-        set (value) {
-          this.$emit('update:workingData', value)
-        },
+  props: {
+    openDialog: { type: Boolean, default: false },
+    x: { type: Number, default: 0 },
+    y: { type: Number, default: 0 },
+    availPersons: {
+      type: Array,
+      default: function () {
+        return ['']
       },
     },
-    methods: {
-      closeFail: function (event) {
-        this.$emit('OnCloseFail', this.workingData)
-      },
-      closeSuccess: function (event) {
-        this.$emit('OnCloseSuccess', this.workingData)
-      },
-      deleteAppointment: function (event) {
-        this.$emit('OnDelete', this.workingData.id)
-        this.$emit('OnCloseFail', this.workingData)
-      },
-      onChange: function (item) {
-        this.$emit('OnChange', this.workingData)
-      },
-      setHHMM (newTime, oldTime) {
-        const newStart = moment(newTime, 'HH:mm')
-        const momentStart = moment(oldTime)
 
-        momentStart.set('minute', newStart.minute())
-        momentStart.set('hour', newStart.hour())
-        return momentStart.valueOf()
+    eventData: { type: Object },
+  },
+  data: () => ({
+    repeatations: ['Einmalig', 'Täglich', 'Wöchentlich', 'Monatlich'],
+    startTimeOpen: false,
+    startDateOpen: false,
+    endDateOpen: false,
+    endTimeOpen: false,
+    colors: [
+      'blue',
+      'indigo',
+      'deep-purple',
+      'cyan',
+      'green',
+      'orange',
+      'grey darken-1',
+    ],
+  }),
+  computed: {
+    maxForStarTime: {
+      get() {
+        if (this.sameDay()) {
+          return this.endTime
+        } else {
+          return '23:59'
+        }
       },
-      setYYYYMMDD (newTime, oldTime) {
-        const newStart = moment(newTime, 'YYYY-MM-DD')
-        const momentStart = moment(oldTime)
-
-        momentStart.set('date', newStart.date())
-        momentStart.set('month', newStart.month())
-        momentStart.set('year', newStart.year())
-
-        return momentStart.valueOf()
+      set() { },
+    },
+    minForEndTime: {
+      get() {
+        if (this.sameDay()) {
+          return this.startTime
+        } else {
+          return '00:00'
+        }
       },
-      allowedStep: (m) => m % 5 === 0,
-      sameDay () {
-        return this.startDate === this.endDate
+      set() { },
+    },
+    startTime: {
+      get() {
+        return moment(this.workingData.start).format('HH:mm')
+      },
+      set(value) {
+        this.workingData.start = this.setHHMM(value, this.workingData.start)
       },
     },
-  }
+    endTime: {
+      get() {
+        return moment(this.workingData.end).format('HH:mm')
+      },
+      set(value) {
+        this.workingData.end = this.setHHMM(value, this.workingData.end)
+      },
+    },
+    startDate: {
+      get() {
+        return moment(this.workingData.start).format('YYYY-MM-DD')
+      },
+      set(value) {
+        console.log(value)
+        const result = this.setYYYYMMDD(value, this.workingData.start)
+        console.log(result, moment(result).format('YYYY-MM-DD').toString())
+
+        this.workingData.start = this.setYYYYMMDD(value, this.workingData.start)
+      },
+    },
+    endDate: {
+      get() {
+        return moment(this.workingData.end).format('YYYY-MM-DD')
+      },
+      set(value) {
+        const result = this.setYYYYMMDD(value, this.workingData.end)
+
+        this.workingData.end = result
+      },
+    },
+    attachedPersons: {
+      get() {
+        if (this.workingData.attachedPersons) {
+          return this.workingData.attachedPersons
+            .split(';')
+            .filter(function (x) {
+              return x !== ''
+            })
+        }
+        return []
+      },
+      set(value) {
+        this.workingData.attachedPersons = value.join(';')
+      },
+    },
+    fullDay: {
+      get() {
+        return !this.workingData.timed
+      },
+      set(value) {
+        this.workingData.timed = !value
+      },
+    },
+
+    workingData: {
+      get() {
+        return this.eventData
+      },
+      set(value) {
+        this.$emit('update:workingData', value)
+      },
+    },
+  },
+  methods: {
+    closeFail: function () {
+      this.$emit('OnCloseFail', this.workingData)
+    },
+    closeSuccess: function () {
+      this.$emit('OnCloseSuccess', this.workingData)
+    },
+    deleteAppointment: function () {
+      this.$emit('OnDelete', this.workingData.id)
+      this.$emit('OnCloseFail', this.workingData)
+    },
+    onChange: function () {
+      this.$emit('OnChange', this.workingData)
+    },
+    setHHMM(newTime, oldTime) {
+      const newStart = moment(newTime, 'HH:mm')
+      const momentStart = moment(oldTime)
+
+      momentStart.set('minute', newStart.minute())
+      momentStart.set('hour', newStart.hour())
+      return momentStart.valueOf()
+    },
+    setYYYYMMDD(newTime, oldTime) {
+      const newStart = moment(newTime, 'YYYY-MM-DD')
+      const momentStart = moment(oldTime)
+
+      momentStart.set('date', newStart.date())
+      momentStart.set('month', newStart.month())
+      momentStart.set('year', newStart.year())
+
+      return momentStart.valueOf()
+    },
+    allowedStep: (m) => m % 5 === 0,
+    sameDay() {
+      return this.startDate === this.endDate
+    },
+  },
+}
 </script>

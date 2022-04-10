@@ -1,6 +1,6 @@
 # Frontend orgalendar
 
-Vue.js, Vuex, Vue Router, Vuelidate, BootstrapVue, Jest, Cypress
+Vue.js, Vue Router,
 
 ## How to start development
 
@@ -17,10 +17,3 @@ npm run serve
 Open the browser and go to [http://localhost:8080](http://localhost:8080)
 
 ## Pages
-
-
-## Todo
-
-- [x] Unit tests
-- [x] E2E tests
-- [ ] File upload

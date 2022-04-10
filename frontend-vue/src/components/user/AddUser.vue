@@ -40,7 +40,7 @@
         userNameRules: [
           v => !!v || 'Du brauchst einen Namen!',
           v => v.length <= 10 || 'Dein Name sollte nicht mehr als 10 Buchstaben haben!',
-          v => this.userNameAvailable || 'Dieser Name ist bereits vergeben! Wähle doch bitte einen anderen.',
+          this.userNameAvailable || 'Dieser Name ist bereits vergeben! Wähle doch bitte einen anderen.',
         ],
         email: '',
         emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],

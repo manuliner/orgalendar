@@ -41,7 +41,7 @@
   import CalendarService from '../../services/calendar.service'
 
   export default {
-    name: 'Choose',
+    name: 'ChooseView',
     components: { AddUserDialog },
 
     props: {},
@@ -92,7 +92,7 @@
           params: { slug: this.$route.params.slug },
         })
       },
-      newUser (val) {
+      newUser () {
         this.$refs.addUserDialog.open()
         this.selectedUser = -1
       },

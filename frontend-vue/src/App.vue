@@ -5,12 +5,9 @@
 </template>
 
 <script>
-  import ConfigService from './services/config.service'
 
-  export default {
-    name: 'App',
-    beforeCreate () {
-      ConfigService.loadConfig()
-    },
-  }
+export default {
+  name: "App",
+
+};
 </script>

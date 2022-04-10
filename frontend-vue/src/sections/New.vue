@@ -43,7 +43,7 @@
   import CalendarService from '../services/calendar.service'
 
   export default {
-    name: 'New',
+    name: 'NewView',
     components: { AddUser },
     data () {
       return {

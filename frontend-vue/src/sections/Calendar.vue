@@ -28,7 +28,7 @@
   import Orgalendar from '../components/orgalendar/Orgalendar.vue'
   import EditAppointmentDialog from '../components/orgalendar/EditAppointmentDialog.vue'
   export default {
-    name: 'Calendar',
+    name: 'CalendarView',
     components: { Orgalendar, EditAppointmentDialog },
     data: () => ({
       appointments: [],

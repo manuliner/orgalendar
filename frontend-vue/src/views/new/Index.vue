@@ -6,7 +6,7 @@
   import LoadSections from '@/mixins/load-sections'
 
   export default {
-    name: 'New',
+    name: 'NewView',
 
     metaInfo: { title: 'New' },
 
