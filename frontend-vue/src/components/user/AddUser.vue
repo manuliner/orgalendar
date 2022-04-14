@@ -40,10 +40,14 @@
         userNameRules: [
           v => !!v || 'Du brauchst einen Namen!',
           v => v.length <= 10 || 'Dein Name sollte nicht mehr als 10 Buchstaben haben!',
-          this.userNameAvailable || 'Dieser Name ist bereits vergeben! Wähle doch bitte einen anderen.',
+          v => !!v && this.userNameAvailable|| 'Dieser Name ist bereits vergeben! Wähle doch bitte einen anderen.',
         ],
         email: '',
-        emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
+        emailRules: [(value) => {
+        const pattern =
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return pattern.test(value) || "Ungültige E-mail";
+      },],
       }
     },
     watch: {
