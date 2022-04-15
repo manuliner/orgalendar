@@ -1,24 +1,16 @@
+<template>
+  <div>
+    <hero></hero>
+    <features></features>
+  </div>
+</template>
+
 <script>
-// Extensions
-  import View from '@/views/View'
+import Features from "./Features.vue";
+import Hero from "./Hero.vue";
 
-  // Mixins
-  import LoadSections from '@/mixins/load-sections'
-
-  export default {
-    name: 'HomeView',
-
-    metaInfo: { title: 'Home' },
-
-    extends: View,
-
-    mixins: [LoadSections(['hero', 'features'])],
-
-    props: {
-      id: {
-        type: String,
-        default: 'home',
-      },
-    },
-  }
+export default {
+  name: "HomeView",
+  components: { Features, Hero },
+};
 </script>
