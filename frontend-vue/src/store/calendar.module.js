@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import Vue from "vue";
 
 export const calendar = {
-  namespaced: true,
+  namespaced: false,
   state: {
     user: {},
     calendar: {},
     cache: {},
   },
   getters: {
-    cache (state) {
+    cache(state) {
       if (
         state.cache === null ||
         (state.cache && // 👈 null and undefined check
@@ -16,14 +16,14 @@ export const calendar = {
           Object.getPrototypeOf(state.cache) === Object.prototype)
       ) {
         // store object is empty. check localstorage
-        state.cache = JSON.parse(localStorage.getItem('orgalendarCache'))
+        state.cache = JSON.parse(localStorage.getItem("orgalendarCache"));
         if (state.cache === null) {
-          state.cache = {}
+          state.cache = {};
         }
       }
-      return state.cache
+      return state.cache;
     },
-    user (state) {
+    user(state) {
       if (
         state.user === null ||
         (state.user && // 👈 null and undefined check
@@ -32,14 +32,14 @@ export const calendar = {
       ) {
         // store object is empty. check localstorage
 
-        state.user = JSON.parse(localStorage.getItem('orgalendarUser'))
+        state.user = JSON.parse(localStorage.getItem("orgalendarUser"));
         if (state.user === null) {
-          state.user = {}
+          state.user = {};
         }
       }
-      return state.user
+      return state.user;
     },
-    calendar (state) {
+    calendar(state) {
       if (
         state.calendar === null ||
         (state.calendar && // 👈 null and undefined check
@@ -47,45 +47,45 @@ export const calendar = {
           Object.getPrototypeOf(state.calendar) === Object.prototype)
       ) {
         // store object is empty. check localstorage
-        state.calendar = JSON.parse(localStorage.getItem('orgalendarCalendar'))
+        state.calendar = JSON.parse(localStorage.getItem("orgalendarCalendar"));
         if (state.calendar === null) {
-          state.calendar = {}
+          state.calendar = {};
         }
       }
-      return state.calendar
+      return state.calendar;
     },
   },
   mutations: {
     SET_USER: (state, data) => {
-      localStorage.setItem('orgalendarUser', JSON.stringify(data))
-      state.user = data
+      localStorage.setItem("orgalendarUser", JSON.stringify(data));
+      state.user = data;
     },
     SET_CALENDAR: (state, data) => {
-      localStorage.setItem('orgalendarCalendar', JSON.stringify(data))
-      state.calendar = data
+      localStorage.setItem("orgalendarCalendar", JSON.stringify(data));
+      state.calendar = data;
     },
     ADD_TO_CACHE: (state, data) => {
-      let cache = JSON.parse(localStorage.getItem('orgalendarCache'))
+      let cache = JSON.parse(localStorage.getItem("orgalendarCache"));
       if (cache === null) {
         // cache empty . create new
-        cache = {}
+        cache = {};
       }
-      cache[data.id] = data
-      localStorage.setItem('orgalendarCache', JSON.stringify(cache))
-      state.cache = cache
+      cache[data.id] = data;
+      localStorage.setItem("orgalendarCache", JSON.stringify(cache));
+      state.cache = cache;
     },
   },
   actions: {
     setUser: ({ commit, state }, value) => {
-      Vue.$log.debug(value)
-      commit('SET_USER', value)
-      return state.user
+      Vue.$log.debug(value);
+      commit("SET_USER", value);
+      return state.user;
     },
     setCalendar: ({ commit, state }, value) => {
-      Vue.$log.debug(value)
-      commit('SET_CALENDAR', value)
-      commit('ADD_TO_CACHE', value)
-      return state.calendar
+      Vue.$log.debug(value);
+      commit("SET_CALENDAR", value);
+      commit("ADD_TO_CACHE", value);
+      return state.calendar;
     },
   },
-}
+};

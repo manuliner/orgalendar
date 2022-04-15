@@ -41,7 +41,7 @@ const { handleSuccess, handleNotFound } = require('./helpers/response');
 db.sequelize
   .sync({ alter: true })
   .then(data => {
-    moduleLogger.info('Database is reachable', data);
+    moduleLogger.info('Database is reachable');
   })
   .catch(err => {
     moduleLogger.error('Error syncing sequelize', err);

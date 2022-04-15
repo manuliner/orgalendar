@@ -1,24 +1,18 @@
+<template>
+  <div>
+    <UserBar/>
+    <calendar></calendar>
+
+  </div>
+</template>
+
 <script>
-// Extensions
-  import View from '@/views/View'
 
-  // Mixins
-  import LoadSections from '@/mixins/load-sections'
+import Calendar from "./Calendar.vue";
+import UserBar from "../../components/user/UserBar.vue";
 
-  export default {
-    name: 'CalendarView',
-
-    metaInfo: { title: 'Calendar' },
-
-    extends: View,
-
-    mixins: [LoadSections(['calendar'])],
-
-    props: {
-      id: {
-        type: String,
-        default: 'Calendar',
-      },
-    },
-  }
+export default {
+  name: "CalendarView",
+  components: { Calendar, UserBar },
+};
 </script>

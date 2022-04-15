@@ -20,7 +20,7 @@
             "webRoot": "${workspaceFolder}/src",
             "pathMappings": [
                 {
-                    "url": "webpack:///src/",
+                    "url": "webpack://orgalendar/src/",
                     "path": "${webRoot}/"
                 }
             ]

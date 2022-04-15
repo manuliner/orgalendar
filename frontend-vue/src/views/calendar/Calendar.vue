@@ -25,8 +25,8 @@
 </template>
 
 <script>
-  import Orgalendar from '../components/orgalendar/Orgalendar.vue'
-  import EditAppointmentDialog from '../components/orgalendar/EditAppointmentDialog.vue'
+  import Orgalendar from '../../components/orgalendar/Orgalendar.vue'
+  import EditAppointmentDialog from '../../components/orgalendar/EditAppointmentDialog.vue'
   export default {
     name: 'CalendarView',
     components: { Orgalendar, EditAppointmentDialog },

@@ -1,24 +1,15 @@
+<template>
+  <div>
+    <create-calendar-card></create-calendar-card>
+  </div>
+</template>
+
 <script>
-// Extensions
-  import View from '@/views/View'
 
-  // Mixins
-  import LoadSections from '@/mixins/load-sections'
+import CreateCalendarCard from "./CreateCalendarCard.vue";
 
-  export default {
-    name: 'NewView',
-
-    metaInfo: { title: 'New' },
-
-    extends: View,
-
-    mixins: [LoadSections(['New'])],
-
-    props: {
-      id: {
-        type: String,
-        default: 'New',
-      },
-    },
-  }
+export default {
+  name: "NewView",
+  components: {  CreateCalendarCard },
+};
 </script>

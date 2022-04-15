@@ -27,8 +27,7 @@ export default {
   created() {
     this.existingOrgalendars = this.$store.getters.cache;
 
-    if (
-      this.existingOrgalendars && // 👈 null and undefined check
+    if ( this.existingOrgalendars && // 👈 null and undefined check
       Object.keys(this.existingOrgalendars).length === 0 &&
       Object.getPrototypeOf(this.existingOrgalendars) === Object.prototype
     ) {
@@ -40,7 +39,6 @@ export default {
   methods: {
     chooseOrgalendar(item) {
       const chosenOrgalendar = Object.values(this.existingOrgalendars)[item];
-
       const user = this.$store.getters.user;
 
       if (chosenOrgalendar.id === user.calendarId) {

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import AddUserDialog from '../custom/AddUserDialog.vue'
+  import AddUserDialog from './AddUserDialog.vue'
   import UserService from '../../services/user.service'
   import CalendarService from '../../services/calendar.service'
   export default {
@@ -57,7 +57,8 @@
         (user && // 👈 null and undefined check
           Object.keys(user).length === 0 &&
           Object.getPrototypeOf(user) === Object.prototype)
-      ) {
+      ){
+          console.log("")
       } else {
         this.selectedUsername = user.name
       }
@@ -101,6 +102,7 @@
             Object.keys(needle).length === 0 &&
             Object.getPrototypeOf(needle) === Object.prototype)
         ) {
+          console.log("asd")
         } else {
           this.selectedUsername = needle.name
           this.$store.dispatch('setUser', needle)

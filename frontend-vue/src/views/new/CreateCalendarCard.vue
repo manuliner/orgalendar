@@ -39,8 +39,8 @@
 </template>
 
 <script>
-  import AddUser from '../components/user/AddUser.vue'
-  import CalendarService from '../services/calendar.service'
+  import AddUser from '../../components/user/AddUser.vue'
+  import CalendarService from '../../services/calendar.service'
 
   export default {
     name: 'NewView',

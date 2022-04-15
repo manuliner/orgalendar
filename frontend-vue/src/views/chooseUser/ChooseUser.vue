@@ -41,7 +41,7 @@
   import CalendarService from '../../services/calendar.service'
 
   export default {
-    name: 'ChooseView',
+    name: 'ChooseUserView',
     components: { AddUserDialog },
 
     props: {},
