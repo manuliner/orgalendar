@@ -1,81 +1,66 @@
 import Vue from "vue";
 
+function isEmptyObject(object) {
+  return (
+    object === null ||
+    (object && // null and undefined check
+      Object.keys(object).length === 0 &&
+      Object.getPrototypeOf(object) === Object.prototype)
+  );
+}
+
+function getLocalStorage(name) {
+  let parsedStorage = JSON.parse(localStorage.getItem(name));
+  if (isEmptyObject(parsedStorage)) {
+    return {};
+  } else {
+    return parsedStorage;
+  }
+}
+function setLocalStorage(name, data) {
+  localStorage.setItem(name, JSON.stringify(data));
+}
+function getOrgaStorage() {
+  let user = getLocalStorage("orgalendarUser");
+  let calendar = getLocalStorage("orgalendarCalendar");
+
+  return { user, calendar };
+}
 export const calendar = {
   namespaced: false,
   state: {
     user: {},
     calendar: {},
-    cache: {},
   },
   getters: {
-    cache(state) {
-      if (
-        state.cache === null ||
-        (state.cache && // 👈 null and undefined check
-          Object.keys(state.cache).length === 0 &&
-          Object.getPrototypeOf(state.cache) === Object.prototype)
-      ) {
-        // store object is empty. check localstorage
-        state.cache = JSON.parse(localStorage.getItem("orgalendarCache"));
-        if (state.cache === null) {
-          state.cache = {};
-        }
-      }
-      return state.cache;
-    },
     user(state) {
-      if (
-        state.user === null ||
-        (state.user && // 👈 null and undefined check
-          Object.keys(state.user).length === 0 &&
-          Object.getPrototypeOf(state.user) === Object.prototype)
-      ) {
-        // store object is empty. check localstorage
-
-        state.user = JSON.parse(localStorage.getItem("orgalendarUser"));
-        if (state.user === null) {
-          state.user = {};
-        }
-      }
       return state.user;
     },
-    calendar(state) {
-      if (
-        state.calendar === null ||
-        (state.calendar && // 👈 null and undefined check
-          Object.keys(state.calendar).length === 0 &&
-          Object.getPrototypeOf(state.calendar) === Object.prototype)
-      ) {
-        // store object is empty. check localstorage
-        state.calendar = JSON.parse(localStorage.getItem("orgalendarCalendar"));
-        if (state.calendar === null) {
-          state.calendar = {};
-        }
-      }
+    calendars(state) {
       return state.calendar;
     },
   },
   mutations: {
+    GET_LOCAL_STORAGE: (state) => {
+      let { user, calendar } = getOrgaStorage();
+      state.user = user;
+      state.calendar = calendar;
+    },
     SET_USER: (state, data) => {
-      localStorage.setItem("orgalendarUser", JSON.stringify(data));
+      setLocalStorage("orgalendarUser", data);
       state.user = data;
     },
     SET_CALENDAR: (state, data) => {
-      localStorage.setItem("orgalendarCalendar", JSON.stringify(data));
+      setLocalStorage("orgalendarCalendar", data);
       state.calendar = data;
-    },
-    ADD_TO_CACHE: (state, data) => {
-      let cache = JSON.parse(localStorage.getItem("orgalendarCache"));
-      if (cache === null) {
-        // cache empty . create new
-        cache = {};
-      }
-      cache[data.id] = data;
-      localStorage.setItem("orgalendarCache", JSON.stringify(cache));
-      state.cache = cache;
     },
   },
   actions: {
+    getLocalStorage: ({ commit }) => {
+      Vue.$log.debug("retrieve local storage if available");
+      commit("GET_LOCAL_STORAGE");
+      return {};
+    },
     setUser: ({ commit, state }, value) => {
       Vue.$log.debug(value);
       commit("SET_USER", value);
@@ -84,7 +69,6 @@ export const calendar = {
     setCalendar: ({ commit, state }, value) => {
       Vue.$log.debug(value);
       commit("SET_CALENDAR", value);
-      commit("ADD_TO_CACHE", value);
       return state.calendar;
     },
   },

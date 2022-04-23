@@ -20,21 +20,20 @@ export default {
 
   data() {
     return {
-      hasAlreadyOrgalendars: false,
       existingOrgalendars: [],
     };
   },
   created() {
-    this.existingOrgalendars = this.$store.getters.cache;
-
-    if ( this.existingOrgalendars && // 👈 null and undefined check
-      Object.keys(this.existingOrgalendars).length === 0 &&
-      Object.getPrototypeOf(this.existingOrgalendars) === Object.prototype
-    ) {
-      this.hasAlreadyOrgalendars = false;
-    } else {
-      this.hasAlreadyOrgalendars = true;
-    }
+    this.existingOrgalendars = this.$store.getters.calendars;
+  },
+  computed: {
+    hasAlreadyOrgalendars() {
+      return !(
+        this.existingOrgalendars && // 👈 null and undefined check
+        Object.keys(this.existingOrgalendars).length === 0 &&
+        Object.getPrototypeOf(this.existingOrgalendars) === Object.prototype
+      );
+    },
   },
   methods: {
     chooseOrgalendar(item) {

@@ -23,39 +23,33 @@
 </template>
 
 <script>
-  export default {
-    name: 'HomeAppBar',
-    data: () => ({
-      drawer: null,
-      switch1: false,
-    }),
-    computed: {
-      loggedIn () {
-        return this.$store.state.auth.status.loggedIn
-      },
-      isNotHome () {
-        return this.$route.name !== 'Start'
-      },
-      showLogoutBtn () {
-        return this.loggedIn && this.isNotHome
-      },
+export default {
+  name: "HomeAppBar",
+  data: () => ({}),
+  computed: {
+    isNotHome() {
+      return this.$route.name !== "Start";
     },
-    methods: {
-      toStart () {
-        const path = '/'
-        if (this.$route.path !== path) this.$router.push(path)
-      },
-
-      logout () {
-        this.$store.dispatch('auth/logout')
-        this.$router.go()
-      },
+    showLogoutBtn() {
+      return this.loggedIn && this.isNotHome;
     },
-  }
+  },
+  mounted() {
+    this.$log.debug("getLocalStorage");
+    this.$store.dispatch("getLocalStorage");
+  },
+  methods: {
+    toStart() {
+      const path = "/";
+      if (this.$route.path !== path) this.$router.push(path);
+    },
+  },
+};
 </script>
 
 <style scoped>
 .filter-accent2 {
-  filter: invert(10%) sepia(98%) saturate(7351%) hue-rotate(294deg) brightness(71%) contrast(106%);
+  filter: invert(10%) sepia(98%) saturate(7351%) hue-rotate(294deg)
+    brightness(71%) contrast(106%);
 }
 </style>
