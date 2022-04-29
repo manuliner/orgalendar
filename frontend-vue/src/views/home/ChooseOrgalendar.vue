@@ -52,9 +52,7 @@ export default {
           name: "ChooseUser",
           params: { slug: chosenOrgalendar.slug },
         });
-        this.$store.dispatch("setUser", {});
       }
-      this.$store.dispatch("setCalendar", chosenOrgalendar);
     },
   },
 };

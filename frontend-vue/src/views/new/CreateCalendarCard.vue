@@ -70,9 +70,11 @@ export default {
         userName: this.userName,
         email: this.email,
       };
+
       CalendarService.create(data)
         .then((response) => {
           const payload = response.data.data;
+
           this.$router.push({
             name: "Calendar",
             params: { slug: payload.calendar.slug },
