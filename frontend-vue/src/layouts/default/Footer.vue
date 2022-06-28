@@ -1,38 +1,24 @@
 <template>
-  <v-footer
-    id="home-footer"
-    color="black"
-    dark
-    min-height="72"
-    absolute
-  >
+  <v-footer id="home-footer" color="black" dark min-height="72" absolute>
     <v-container>
       <v-row>
-        <v-col
-          class="text-center text-md-right"
-          cols="8"
-          md="6"
-        >
-          Copyright &copy; 2021 LIT labs UG (Haftungsbeschränkt)
+        <v-col class="text-center text-md-right" cols="8" md="6">
+          Copyright &copy; 2022 LIT labs UG (Haftungsbeschränkt)
         </v-col>
-        <v-col
-          class="text-center text-md-right"
-          cols="4"
-          md="6"
-        />
+        <v-col class="text-center text-md-right" cols="4" md="6" />
       </v-row>
     </v-container>
   </v-footer>
 </template>
 
 <script>
-  export default {
-    name: 'HomeFooter',
+export default {
+  name: "HomeFooter",
 
-    data: () => ({
-      social: [],
-    }),
-  }
+  data: () => ({
+    social: [],
+  }),
+};
 </script>
 
 <style lang="sass">

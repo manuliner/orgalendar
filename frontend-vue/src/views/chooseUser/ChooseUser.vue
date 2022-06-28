@@ -1,25 +1,13 @@
 <template>
   <v-container>
     <div class="text-center">
-      <v-chip-group
-        active-class="primary--text"
-        column
-        @change="chooseUser"
-      >
-        <v-chip
-          v-for="tag in users"
-          :key="tag"
-        >
+      <v-chip-group active-class="primary--text" column @change="chooseUser">
+        <v-chip v-for="tag in users" :key="tag">
           {{ tag.name }}
         </v-chip>
 
-        <v-chip
-          color="red"
-          @click="newUser"
-        >
-          <v-icon left>
-            mdi-plus
-          </v-icon>
+        <v-chip color="red" @click="newUser">
+          <v-icon left> mdi-plus </v-icon>
 
           Neuer Nutzer
         </v-chip>
@@ -36,69 +24,69 @@
 </template>
 
 <script>
-  import AddUserDialog from '../../components/user/AddUserDialog.vue'
-  import UserService from '../../services/user.service'
-  import CalendarService from '../../services/calendar.service'
+import AddUserDialog from "../../components/user/AddUserDialog.vue";
+import UserService from "../../services/user.service";
+//import CalendarService from "../../services/calendar.service";
 
-  export default {
-    name: 'ChooseUserView',
-    components: { AddUserDialog },
+export default {
+  name: "ChooseUserView",
+  components: { AddUserDialog },
 
-    props: {},
-    data: () => ({
-      selectedUser: '',
-      users: [],
+  props: {},
+  data: () => ({
+    selectedUser: "",
+    users: [],
 
-      calendarId: 0,
-    }),
-    created () {
-      // add current  orgalendar to local storage
-      CalendarService.getCalendarBySlug(this.$route.params.slug)
-        .then(response => {
-          const payload = response.data
-          this.$store.dispatch('setCalendar', payload.data)
-          this.fetchCalendarUsers()
+    calendarId: 0,
+  }),
+  created() {
+    // add current  orgalendar to local storage
+    // CalendarService.getCalendarBySlug(this.$route.params.slug)
+    //   .then((response) => {
+    //     const payload = response.data;
+    //     this.$store.dispatch("setCalendar", payload.data);
+    //     this.fetchCalendarUsers();
+    //   })
+    //   .catch((e) => {
+    //     this.$log.error(e);
+    //     this.$router.push({
+    //       name: "Start",
+    //     });
+    //   });
+  },
+  methods: {
+    fetchCalendarUsers() {
+      UserService.getCalendarUsers(this.$store.getters.calendar.id)
+        .then((response) => {
+          const payload = response.data;
+          this.users = [];
+          payload.data.forEach((element) => {
+            this.users.push(element);
+          });
         })
-        .catch(e => {
-          this.$log.error(e)
+        .catch((e) => {
+          this.$log.error(e);
           this.$router.push({
-            name: 'Start',
-          })
-        })
+            name: "Start",
+          });
+        });
     },
-    methods: {
-      fetchCalendarUsers () {
-        UserService.getCalendarUsers(this.$store.getters.calendar.id)
-          .then(response => {
-            const payload = response.data
-            this.users = []
-            payload.data.forEach(element => {
-              this.users.push(element)
-            })
-          })
-          .catch(e => {
-            this.$log.error(e)
-            this.$router.push({
-              name: 'Start',
-            })
-          })
-      },
-      chooseUser (val) {
-        if (val === 0 || !val) return
-        const value = Math.min(Math.max(val, 1), this.users.length)
-        this.$store.dispatch('setUser', this.users[value - 1])
-        this.$router.push({
-          name: 'Calendar',
-          params: { slug: this.$route.params.slug },
-        })
-      },
-      newUser () {
-        this.$refs.addUserDialog.open()
-        this.selectedUser = -1
-      },
-      addUser (newUser) {
-        this.users.push(newUser)
-      },
+    chooseUser(val) {
+      if (val === 0 || !val) return;
+      const value = Math.min(Math.max(val, 1), this.users.length);
+      this.$store.dispatch("setUser", this.users[value - 1]);
+      this.$router.push({
+        name: "Calendar",
+        params: { slug: this.$route.params.slug },
+      });
     },
-  }
+    newUser() {
+      this.$refs.addUserDialog.open();
+      this.selectedUser = -1;
+    },
+    addUser(newUser) {
+      this.users.push(newUser);
+    },
+  },
+};
 </script>

@@ -50,6 +50,9 @@ export default {
   }),
 
   beforeCreate() {},
+  mounted() {
+    console.log("calendar");
+  },
   methods: {
     onDateRangeChange() {
       this.$log.debug();

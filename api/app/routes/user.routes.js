@@ -4,7 +4,7 @@ module.exports = app => {
   var router = require('express').Router();
 
   // Retrieve a all User with calendar id
-  router.get('/byCalendar', user.findByCalendarId);
+  router.get('/bySlug', user.getUsersBySlug);
 
   // Retrieve a single User with id
   router.get('/exists', user.isUserNameTaken);

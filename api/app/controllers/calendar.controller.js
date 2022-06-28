@@ -35,6 +35,7 @@ exports.create = (req, res) => {
                 user: {
                   id: myUser.dataValues.id,
                   calendarId: calendar.dataValues.id,
+                  slug: calendar.dataValues.slug,
                   name: myUser.dataValues.name
                 }
               });

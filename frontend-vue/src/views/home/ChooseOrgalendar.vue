@@ -23,9 +23,13 @@ export default {
       existingOrgalendars: [],
     };
   },
-  created() {
-    this.existingOrgalendars = this.$store.getters.calendars;
+  mounted() {
+    this.$store.dispatch("getOrgaStorage").then(() => {
+      this.existingOrgalendars = this.$store.getters.calendars;
+    });
   },
+
+  created() {},
   computed: {
     hasAlreadyOrgalendars() {
       return !(
@@ -38,21 +42,11 @@ export default {
   methods: {
     chooseOrgalendar(item) {
       const chosenOrgalendar = Object.values(this.existingOrgalendars)[item];
-      const user = this.$store.getters.user;
 
-      if (chosenOrgalendar.id === user.calendarId) {
-        // known user -> go directly to orgalendar
-        this.$router.push({
-          name: "Calendar",
-          params: { slug: chosenOrgalendar.slug },
-        });
-      } else {
-        // unnknow user -> go to choose user page
-        this.$router.push({
-          name: "ChooseUser",
-          params: { slug: chosenOrgalendar.slug },
-        });
-      }
+      this.$router.push({
+        name: "Calendar",
+        params: { slug: chosenOrgalendar.slug },
+      });
     },
   },
 };

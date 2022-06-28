@@ -73,11 +73,12 @@ export default {
 
       CalendarService.create(data)
         .then((response) => {
-          const payload = response.data.data;
-
+          const payload = response.data;
+          this.$store.dispatch("addCalendar", payload.data.calendar);
+          this.$store.dispatch("setUser", payload.data.user);
           this.$router.push({
             name: "Calendar",
-            params: { slug: payload.calendar.slug },
+            params: { slug: payload.data.calendar.slug },
           });
         })
         .catch((e) => {

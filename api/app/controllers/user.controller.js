@@ -44,20 +44,22 @@ exports.create = (req, res) => {
     });
 };
 
-exports.findByCalendarId = (req, res) => {
+exports.getUsersBySlug = (req, res) => {
   const validationResponse = handleValidationError(req, res);
   if (validationResponse !== null) {
     return validationResponse;
   }
-
-  let calId = parseInt(req.query.calendarId);
-  User.findAll({ where: { calendarId: calId }, attributes: ['name', 'id', 'calendarId'] })
-    .then(data => {
-      handleSuccess(res, 'I did find the calendar you are looking for', data);
+  db.Calendar.findOne({ where: req.query })
+    .then(calendar => {
+      User.findAll({ where: { calendarId: calendar.id }, attributes: ['name', 'id', 'calendarId'], raw: true })
+        .then(data => {
+          handleSuccess(res, 'I did find the calendar you are looking for', data);
+        })
+        .catch(err => {
+          handleInternalError(res, err.message || 'Some error occurred while retrieving Users.');
+        });
     })
-    .catch(err => {
-      handleInternalError(res, err.message || 'Some error occurred while retrieving Users.');
-    });
+    .catch(e => {});
 };
 
 exports.isUserNameTaken = (req, res) => {

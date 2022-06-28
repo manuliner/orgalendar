@@ -1,15 +1,15 @@
 <template>
   <section id="UserChooser">
-    <v-sheet class="px-10 pt-5">
+    <v-sheet class="pt-5">
       <v-container>
-        <v-row>
+        <v-row v-if="selectedUsername !== ''">
           <v-col cols="1"> Du bist </v-col>
           <v-col cols="2">
             <v-select
               v-model="selectedUsername"
               :items="userNames"
               label="Name"
-              @change="onPersonChoose"
+              @change="onUserchoose"
             >
               <template #append-item>
                 <v-list-item>
@@ -19,6 +19,20 @@
                 </v-list-item>
               </template>
             </v-select>
+          </v-col>
+        </v-row>
+        <v-row v-if="selectedUsername === ''">
+          <v-col>
+            <v-chip-group
+              v-if="selectedUsername === ''"
+              active-class="primary--text"
+              column
+              @change="onUserchooseByNumber"
+            >
+              <v-chip v-for="tag in users" :key="tag.name">
+                {{ tag.name }}
+              </v-chip>
+            </v-chip-group>
           </v-col>
         </v-row>
 
@@ -31,7 +45,8 @@
 <script>
 import AddUserDialog from "./AddUserDialog.vue";
 import UserService from "../../services/user.service";
-import CalendarService from "../../services/calendar.service";
+import { isEmptyObject } from "../../helpers/common.helper";
+
 export default {
   name: "UserChooser",
 
@@ -42,84 +57,49 @@ export default {
     users: [],
     valid: false,
   }),
-  mounted() {
-    const user = this.$store.getters.user;
-    if (
-      user === null ||
-      (user && // 👈 null and undefined check
-        Object.keys(user).length === 0 &&
-        Object.getPrototypeOf(user) === Object.prototype)
-    ) {
-      console.log("");
-    } else {
-      this.selectedUsername = user.name;
-    }
-    const calendar = this.$store.getters.calendar;
-    if (
-      calendar === null ||
-      (calendar && // 👈 null and undefined check
-        Object.keys(calendar).length === 0 &&
-        Object.getPrototypeOf(calendar) === Object.prototype)
-    ) {
-      // add current  orgalendar to local storage
-      CalendarService.getCalendarBySlug(this.$route.params.slug)
-        .then((response) => {
-          const payload = response.data;
-          this.$store.dispatch("addCalendar", payload.data);
-          this.fetchAllUser();
-        })
-        .catch((e) => {
-          this.$log.error(e);
-          this.$router.push({
-            name: "Start",
-          });
+  created() {
+    UserService.getUsersBySlug(this.$route.params.slug)
+      .then((response) => {
+        const payload = response.data;
+        this.users = payload.data;
+        this.userNames = this.users.map((element) => {
+          return element.name;
         });
-    } else {
-      this.fetchAllUser();
-    }
+      })
+      .catch((e) => {
+        this.$log.error(e);
+      });
+    this.$store.dispatch("getUser", this.$route.params.slug).then((data) => {
+      if (data) {
+        this.selectedUsername = data.name;
+      }
+    });
   },
+
   methods: {
     addUser(newUser) {
       this.users.push(newUser);
       this.userNames.push(newUser.name);
     },
     openDialog() {
-      this.$refs.addUserDialogUserBar.open(
-        this.$store.getters.calendar.id,
-        this.userNames
-      );
+      this.$refs.addUserDialogUserBar.open(this.userNames);
     },
-    onPersonChoose(val) {
+    onUserchooseByNumber(idx) {
+      let user = this.users[idx];
+      this.selectedUsername = user.name;
+      user.slug = this.$route.params.slug;
+      this.$store.dispatch("setUser", user);
+    },
+    onUserchoose(val) {
       const needle = this.users.find((element) => element.name === val);
-      if (
-        needle === null ||
-        (needle && // 👈 null and undefined check
-          Object.keys(needle).length === 0 &&
-          Object.getPrototypeOf(needle) === Object.prototype)
-      ) {
-        console.log("asd");
-      } else {
+      if (!isEmptyObject(needle)) {
         this.selectedUsername = needle.name;
+        needle.slug = this.$route.params.slug;
         this.$store.dispatch("setUser", needle);
       }
     },
     fetchAllUser() {
-      const calendar = this.$store.getters.calendar;
-      UserService.getCalendarUsers(calendar.id)
-        .then((response) => {
-          const payload = response.data;
-          this.users = [];
-          payload.data.forEach((element) => {
-            this.users.push(element);
-            this.userNames.push(element.name);
-          });
-        })
-        .catch((e) => {
-          this.$log.error(e);
-          this.$router.push({
-            name: "Start",
-          });
-        });
+      //   const calendar = this.$store.getters.calendar;
     },
   },
 };

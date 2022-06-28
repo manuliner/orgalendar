@@ -5,8 +5,8 @@ class UserService {
     return http.post(`/user`, data);
   }
 
-  getCalendarUsers(calendarId) {
-    return http.get(`/user/byCalendar?calendarId=${calendarId}`);
+  getUsersBySlug(slug) {
+    return http.get(`/user/bySlug?slug=${slug}`);
   }
 
   isUserNameTaken(calendarId, userName) {

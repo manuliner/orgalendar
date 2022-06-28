@@ -18,16 +18,16 @@ app.set('trust proxy', true);
 app.use(helmet());
 app.use(cors());
 app.use(compression());
-app.use(
-  bunyanMiddleware({
-    headerName: 'X-Request-Id',
-    propertyName: 'reqId',
-    logName: 'reqId',
-    obscureHeaders: ['authorization'],
-    logger,
-    additionalRequestFinishData: (_req, _res) => ({})
-  })
-);
+// app.use(
+//   bunyanMiddleware({
+//     headerName: 'X-Request-Id',
+//     propertyName: 'reqId',
+//     logName: 'reqId',
+//     obscureHeaders: ['authorization'],
+//     logger,
+//     additionalRequestFinishData: (_req, _res) => ({})
+//   })
+//);
 
 // parse requests of content-type - application/json
 app.use(express.json()); /* bodyParser.json() is deprecated */

@@ -9,13 +9,23 @@
 </template>
 
 <script>
-  export default {
-    name: 'StartView',
-
-    components: {
-      HomeAppBar: () => import('./AppBar'),
-      HomeFooter: () => import('./Footer'),
-      HomeView: () => import('./View'),
-    },
-  }
+import CalendarService from "../../services/calendar.service";
+export default {
+  name: "StartView",
+  mounted() {
+    this.$store.dispatch("getOrgaStorage");
+    CalendarService.getCalendarBySlug(this.$route.params.slug)
+      .then((response) => {
+        this.$store.dispatch("addCalendar", response.data.data);
+      })
+      .catch((e) => {
+        this.$log.error(e);
+      });
+  },
+  components: {
+    HomeAppBar: () => import("./AppBar"),
+    HomeFooter: () => import("./Footer"),
+    HomeView: () => import("./View"),
+  },
+};
 </script>

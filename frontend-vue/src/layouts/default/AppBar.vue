@@ -16,7 +16,7 @@
         width="100%"
         @click="toStart"
       />
-      <base-heading title="ORGALENDAR" />
+      <base-heading space="0" title="ORGALENDAR" />
       <v-spacer />
     </v-app-bar>
   </div>
@@ -30,14 +30,8 @@ export default {
     isNotHome() {
       return this.$route.name !== "Start";
     },
-    showLogoutBtn() {
-      return this.loggedIn && this.isNotHome;
-    },
   },
-  mounted() {
-    this.$log.debug("getLocalStorage");
-    this.$store.dispatch("getLocalStorage");
-  },
+
   methods: {
     toStart() {
       const path = "/";
