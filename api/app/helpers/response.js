@@ -1,8 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const _ = require('lodash');
 const { validationResult } = require('express-validator');
-// eslint-disable-next-line no-unused-vars
-const { getTokenData } = require('./auth.helper');
 
 const emitValidationResponse = (res, errorArray) =>
   res.status(422).json({

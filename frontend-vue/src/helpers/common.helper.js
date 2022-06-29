@@ -6,3 +6,9 @@ export const isEmptyObject = (object) => {
       Object.getPrototypeOf(object) === Object.prototype)
   );
 };
+
+import moment from "moment";
+export const toUnix = (time) => {
+  let momentTime = moment(time.date);
+  return momentTime.unix();
+};

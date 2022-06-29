@@ -27,6 +27,8 @@
 <script>
 import Orgalendar from "../../components/orgalendar/Orgalendar.vue";
 import EditAppointmentDialog from "../../components/orgalendar/EditAppointmentDialog.vue";
+import appointmentService from "../../services/appointment.service";
+import { toUnix } from "../../helpers/common.helper";
 export default {
   name: "CalendarView",
   components: { Orgalendar, EditAppointmentDialog },
@@ -49,13 +51,24 @@ export default {
     appointmentY: 0,
   }),
 
-  beforeCreate() {},
-  mounted() {
-    console.log("calendar");
-  },
   methods: {
-    onDateRangeChange() {
-      this.$log.debug();
+    onDateRangeChange(timeRange) {
+      this.$store
+        .dispatch("getCalendarID", this.$route.params.slug)
+        .then((id) => {
+          appointmentService
+            .getAppointmentsInRange(
+              id,
+              toUnix(timeRange.start),
+              toUnix(timeRange.end)
+            )
+            .then((response) => {
+              this.$log.debug(response.data.data, "test");
+            })
+            .catch((e) => {
+              this.$log.error(e.message);
+            });
+        });
     },
     onUpdateAppointment(updatedAppointment) {
       this.$log.debug(updatedAppointment);
