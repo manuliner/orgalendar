@@ -1,7 +1,7 @@
 <template>
   <div>
     <UserBar />
-    <calendar></calendar>
+    <Calendar></Calendar>
   </div>
 </template>
 

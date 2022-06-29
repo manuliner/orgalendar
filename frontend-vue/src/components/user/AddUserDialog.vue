@@ -76,7 +76,7 @@ export default {
       UserService.createUser(data)
         .then((response) => {
           const payload = response.data;
-          this.$log.debug(payload);
+
           this.$emit("addUser", payload.data);
         })
         .catch((e) => {
@@ -86,8 +86,7 @@ export default {
     closeAddUserDialogFail() {
       this.openDialog = false;
     },
-    onValid(valid, email, name) {
-      this.$log.debug(valid, email, name);
+    onValid(valid) {
       this.valid = valid;
     },
     open(takenNames) {

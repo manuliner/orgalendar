@@ -41,7 +41,6 @@ function findUserBySlug(users, slug) {
   let index = -1;
   users.forEach((element, idx) => {
     if (element.slug === slug) {
-      Vue.$log.debug("Found User ", idx);
       index = idx;
     }
   });
@@ -52,7 +51,6 @@ function findCalendarBySlug(calendars, slug) {
   let index = -1;
   calendars.forEach((element, idx) => {
     if (element.slug === slug) {
-      Vue.$log.debug("Found Calendar", idx);
       index = idx;
     }
   });
@@ -77,13 +75,11 @@ export const calendar = {
   mutations: {
     GET_LOCAL_STORAGE: (state) => {
       let storage = getOrgaStorage();
-      Vue.$log.debug("GET_LOCAL_STORAGE :", storage);
+
       if (isEmptyObject(storage.calendar)) {
-        Vue.$log.debug("did not found calendar. Initializing");
         storage.calendar = [];
       }
       if (isEmptyObject(storage.user)) {
-        Vue.$log.debug("did not found user. Initializing");
         storage.user = [];
       }
       state.calendar = storage.calendar;
@@ -93,10 +89,8 @@ export const calendar = {
       state.userNames = data.map((element) => {
         return element.name;
       });
-      Vue.$log.debug("FETCH_USERS", state.userNames);
     },
     SET_USER: (state, data) => {
-      Vue.$log.debug("SET_USER", data, state.user);
       let idx = findUserBySlug(state.user, data.slug);
       if (idx === -1) {
         state.user.push(data);
@@ -108,7 +102,6 @@ export const calendar = {
     },
 
     ADD_CALENDAR: (state, data) => {
-      Vue.$log.debug("ADD_CALENDAR", data, state.calendar);
       let idx = findCalendarBySlug(state.calendar, data.slug);
       if (idx === -1) {
         state.calendar.push(data);
@@ -121,17 +114,14 @@ export const calendar = {
   },
   actions: {
     getOrgaStorage: ({ commit }) => {
-      Vue.$log.debug("retrieve local storage if available");
       commit("GET_LOCAL_STORAGE");
       return {};
     },
     setUser: ({ commit, state }, value) => {
-      Vue.$log.debug("Set User", value);
       commit("SET_USER", value);
       return state.user;
     },
     getUser: ({ commit, state }, slug) => {
-      Vue.$log.debug("getUser");
       let idx = findUserBySlug(state.calendar, slug);
       if (idx === -1) {
         Vue.$log.error("couldn't find fitting user");
@@ -145,8 +135,6 @@ export const calendar = {
       }
     },
     fetchUsers: ({ commit, state }, slug) => {
-      Vue.$log.debug("fetchUsers", slug);
-
       let idx = findCalendarBySlug(state.calendar, slug);
       if (idx === -1) {
         return state.user;
@@ -155,11 +143,7 @@ export const calendar = {
       UserService.getCalendarUsers(state.calendar[idx].id)
         .then((response) => {
           const payload = response.data;
-          Vue.$log.debug(
-            "getCalendarUsers",
-            state.calendar[idx].id,
-            payload.data
-          );
+
           commit("SET_USERNAMES", payload.data);
           return state.userNames;
         })
@@ -170,7 +154,6 @@ export const calendar = {
     },
 
     addCalendar: ({ commit, state }, value) => {
-      Vue.$log.debug("Add calendar", value);
       commit("ADD_CALENDAR", value);
       return state.calendar;
     },

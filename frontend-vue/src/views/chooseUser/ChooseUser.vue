@@ -26,7 +26,6 @@
 <script>
 import AddUserDialog from "../../components/user/AddUserDialog.vue";
 import UserService from "../../services/user.service";
-//import CalendarService from "../../services/calendar.service";
 
 export default {
   name: "ChooseUserView",
@@ -39,21 +38,7 @@ export default {
 
     calendarId: 0,
   }),
-  created() {
-    // add current  orgalendar to local storage
-    // CalendarService.getCalendarBySlug(this.$route.params.slug)
-    //   .then((response) => {
-    //     const payload = response.data;
-    //     this.$store.dispatch("setCalendar", payload.data);
-    //     this.fetchCalendarUsers();
-    //   })
-    //   .catch((e) => {
-    //     this.$log.error(e);
-    //     this.$router.push({
-    //       name: "Start",
-    //     });
-    //   });
-  },
+
   methods: {
     fetchCalendarUsers() {
       UserService.getCalendarUsers(this.$store.getters.calendar.id)
